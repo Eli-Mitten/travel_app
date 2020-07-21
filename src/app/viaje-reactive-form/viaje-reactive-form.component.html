@@ -1,0 +1,60 @@
+<div class="container">
+    <h1>Reactive form</h1>
+   
+    <form [formGroup]="elFormulario" (ngSubmit)="guardar(elFormulario.value)">
+        <div class="row">
+            <div class="field-element ">
+                <label>Id</label>
+                <input type="number" formControlName="id" >
+            </div>
+            <div class="field-element ">
+                <label>Nombre del Viaje</label>
+                <input type="text" formControlName="nombreDelViaje">
+                <!-- <div [hidden]="nombreDelViaje.valid || nombreDelViaje.pristine" class="error">
+                    Nombre del Viaje es obligatorio
+                </div> -->
+            </div>
+
+            <div class="field-element ">
+                <label>Destino</label>
+                <input type="text" formControlName="destino">
+            </div>
+
+            <div class="field-element ">
+                <label>Duracion</label>
+                <input type="number" formControlName="duracion">
+            </div>
+
+            <div class="field-element ">
+                <label>Plazas</label>
+                <input type="number" formControlName="plazas" >
+            </div>
+
+            <div class="field-element">
+                <label>Tipo de Viaje</label>
+                <select formControlName="tipoDelViaje">
+                    <option></option>
+                    <option *ngFor="let item of tiposDeViajes" [value]="item.id">{{item.value}}</option>
+                </select>
+            </div>
+
+            <div class="field-element">
+                <label>Viaje Visible</label>
+                <select formControlName="visible">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="field-element">
+                <label>Estado</label>
+                <select formControlName="estado">
+                    <option></option>
+                    <option *ngFor="let item of estados" [value]="item.id">{{item.value}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row-reverse">
+            <button class="btn primary" type="submit" [disabled]="!elFormulario.valid">Guardar</button>
+        </div>
+    </form>
+</div>

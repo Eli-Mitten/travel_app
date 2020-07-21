@@ -1,0 +1,90 @@
+<div class="container">
+    <!-- #viajeForm: Variable con el contenido del objeto FormGroup que nos genera Angular -->
+    <!-- ngSubmit: Evento de salida de la directiva ngForm que se provoca al hacer submit sobre el formulario -->
+    <form #viajeForm=ngForm (ngSubmit)="guardar(viajeForm.value)">
+        <div class="row">
+            <div class="field-element ">
+                <label>id</label>
+                <input type="number" name="id" required [(ngModel)]="viaje.id" #id=ngModel>
+            </div>
+            <div class="field-element ">
+                <label>Nombre del Viaje</label>
+                <!--name: Nombre de la propiedad que se generara en el formulario para el campo -->
+                <!--ngModel: 1. Crea un FormControl dentro del formulario.
+                                 2  Crea una propiedad en el objeto formulario con el nombre definido
+                                en el atributo name del input -->
+                <!--[(ngModel)]="viaje.nombreDelViaje": Establecer el two-way data binding  -->
+                <!--#nombreDelViaje="ngModel": generamos una variable que contiene el FormControl que genera ngModel -->
+                <input type="text" name="nombreDelViaje" required [(ngModel)]="viaje.nombreDelViaje" #nombreDelViaje=ngModel>
+                <div [hidden]="nombreDelViaje.valid || nombreDelViaje.pristine" class="error">
+                    Nombre del Viaje es obligatorio
+                </div>
+            </div>
+
+            <div class="field-element ">
+                <label>Destino</label>
+                <input type="text" name="destino" required [(ngModel)]="viaje.destino" #destino=ngModel>
+            </div>
+
+            <div class="field-element ">
+                <label>Duracion</label>
+                <input type="number" name="duracion" required [(ngModel)]="viaje.duracion" #duracion=ngModel>
+            </div>
+
+            <div class="field-element ">
+                <label>Plazas</label>
+                <input type="number" name="plazas" required [(ngModel)]="viaje.plazas" #plazas=ngModel>
+            </div>
+
+            <!-- <div class="field-element ">
+                <label></label>
+                <input type="text">
+            </div> -->
+
+            <div class="field-element">
+                <label>Tipo de Viaje</label>
+                <select required [(ngModel)]="viaje.tipoDelViaje" name="tipoDelViaje">
+                    <option></option>
+                    <option *ngFor="let item of tiposDeViajes" [value]="item.id">{{item.value}}</option>
+                </select>
+            </div>
+
+            <div class="field-element">
+                <label>Viaje Visible</label>
+                <select [(ngModel)]="viaje.visible" name="visible">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+
+            <!-- <div class="field-element">
+                <label>Estado</label>
+                <select [(ngModel)]="viaje.estado" name="estado">
+                    <option></option>
+                    <option *ngFor="let item of viaje | keyvalue" [value]="item.value">{{item.key}}</option>
+                </select>
+            </div> -->
+
+            <div class="field-element">
+                <label>Estado</label>
+                <select [(ngModel)]="viaje.estado" name="estado">
+                    <option></option>
+                    <option *ngFor="let item of estados" [value]="item.id">{{item.value}}</option>
+                </select>
+            </div>
+
+            <!-- <div class="field-element ">
+                <label>Viaje Visible</label>
+                <input type="checkbox" name="visible" [(ngModel)]="viaje.visible" #visible=ngModel>
+            </div> -->
+        </div>
+        <div class="row-reverse">
+            <button class="btn primary" type="submit" [disabled]="!viajeForm.form.valid">Guardar</button>
+            <!-- <button class="btn" type="button">Nuevo Viaje</button> -->
+        </div>
+
+        {{
+            viajeForm.status
+        }}
+    </form>
+</div>
