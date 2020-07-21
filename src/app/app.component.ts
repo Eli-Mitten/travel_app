@@ -21,11 +21,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.viaje = this.cargarViaje(7);
+      // this.viaje = this.cargarViaje(7);
     }, 1000);
   }
 
-  guardar(v: Viaje): void {
+  guardarEnListaViajes(v: Viaje): void {
     this.viajes.push(v);
     console.table(v);
     console.log(this.viajes);

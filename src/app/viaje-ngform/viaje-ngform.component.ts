@@ -32,6 +32,7 @@ export class ViajeNgformComponent implements OnInit {
 
   guardar(value: Viaje): void {
     this.viajeChanged.emit(value);
+    this.viaje = new Viaje()
   }
 
 }
