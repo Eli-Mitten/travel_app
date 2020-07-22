@@ -8,6 +8,7 @@ import { IdValue } from '../models/id-value';
 })
 export class ViajeNgformComponent implements OnInit {
 
+  // tslint:disable-next-line: variable-name
   _viaje: Viaje = new Viaje();
 
   @Input() set viaje(value: Viaje) {
@@ -32,7 +33,7 @@ export class ViajeNgformComponent implements OnInit {
 
   guardar(value: Viaje): void {
     this.viajeChanged.emit(value);
-    this.viaje = new Viaje()
+
   }
 
 }

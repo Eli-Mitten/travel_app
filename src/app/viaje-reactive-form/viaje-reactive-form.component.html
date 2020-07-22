@@ -3,10 +3,10 @@
    
     <form [formGroup]="elFormulario" (ngSubmit)="guardar(elFormulario.value)">
         <div class="row">
-            <div class="field-element ">
+            <!-- <div class="field-element ">
                 <label>Id</label>
                 <input type="number" formControlName="id" >
-            </div>
+            </div> -->
             <div class="field-element ">
                 <label>Nombre del Viaje</label>
                 <input type="text" formControlName="nombreDelViaje">
@@ -18,6 +18,9 @@
             <div class="field-element ">
                 <label>Destino</label>
                 <input type="text" formControlName="destino">
+                <div class="error" *ngIf="elFormulario.controls.destino.hasError('destinoNoValido')">
+                    El destino no es valido
+                </div>
             </div>
 
             <div class="field-element ">
@@ -34,7 +37,7 @@
                 <label>Tipo de Viaje</label>
                 <select formControlName="tipoDelViaje">
                     <option></option>
-                    <option *ngFor="let item of tiposDeViajes" [value]="item.id">{{item.value}}</option>
+                    <option *ngFor="let item of _tiposDeViajes" [value]="item.id">{{item.value}}</option>
                 </select>
             </div>
 
@@ -55,6 +58,7 @@
         </div>
         <div class="row-reverse">
             <button class="btn primary" type="submit" [disabled]="!elFormulario.valid">Guardar</button>
+            <button class="btn" type="button" (click)="nuevoViaje()">Nuevo</button>
         </div>
     </form>
 </div>

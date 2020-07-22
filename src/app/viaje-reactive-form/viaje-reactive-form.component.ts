@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, SimpleChange, SimpleChanges } from '@angular/core';
-import { Viaje } from '../models/viaje';
+import { Viaje, TiposDeViajes } from '../models/viaje';
 import { IdValue } from '../models/id-value';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-viaje-reactive-form',
@@ -26,33 +26,62 @@ export class ViajeReactiveFormComponent implements OnInit {
   // }
 
   @Input() estados: IdValue[] = [];
-  @Input() tiposDeViajes: IdValue[] = [];
+  _tiposDeViajes: IdValue[];
+  _tiposDeViajesBck: IdValue[];
+  @Input() set tiposDeViajes(value: IdValue[]) {
+    if (value) {
+      this._tiposDeViajesBck = value;
+      this._tiposDeViajes = value;
+    }
+  }
+  get tiposDeViajes(): IdValue[] {
+    return this._tiposDeViajes;
+  }
 
   @Output() viajeChanged = new EventEmitter<Viaje>(false);
 
+  
 
   elFormulario: FormGroup;
 
   constructor(fb: FormBuilder) {
 
-    this.elFormulario = this.buildFormulario(fb);
+    this.buildFormulario(fb);
 
   }
 
-  private buildFormulario(fb: FormBuilder): FormGroup {
-    return fb.group({
-      id: [0, Validators.required],
+  private buildFormulario(fb: FormBuilder): void {
+    this.elFormulario = fb.group({
+      id: [''],
       nombreDelViaje: ['', Validators.required],
       tipoDelViaje: [''],
       duracion: [0],
-      destino: [''],
+      destino: ['', Validators.compose([this.destinoNoValido, Validators.required])],
       plazas: [0],
       visible: [true],
       estado: ['']
     });
   }
+  destinoNoValido(control: FormControl): { [s: string]: boolean } {
+    if (control.value?.toLowerCase().indexOf('roma') >= 0) {
+      return { destinoNoValido: true };
+    }
+  }
 
   ngOnInit(): void {
+
+    this.elFormulario.controls.nombreDelViaje.valueChanges.subscribe(x => {
+      this.validadorNombreDelViaje(x);
+    })
+
+    this.elFormulario.controls.destino.valueChanges.subscribe(x => {
+      if (x?.toLowerCase().indexOf('madrid') >= 0){
+        this._tiposDeViajes = this._tiposDeViajesBck.filter( v => v.id != TiposDeViajes.Crucero  );
+      } else {
+        this._tiposDeViajes = this._tiposDeViajesBck;
+      }
+    });
+
     // this.elFormulario.controls.nombreDelViaje.setValue(this.viaje.nombreDelViaje);
 
     // Si coges un dato externo al componente hay q ver q exista
@@ -62,14 +91,30 @@ export class ViajeReactiveFormComponent implements OnInit {
     // }
   }
 
-  ngOnChange(changes: SimpleChanges): void {
-    if (changes.viaje?.currentValue) {
-      this.elFormulario.patchValue(changes.viaje.currentValue);
+  private validadorNombreDelViaje(x: any) {
+    if (x?.toLowerCase().indexOf('Madrid') >= 0) {
+      this.elFormulario.controls.destino.patchValue('España');
+      this.elFormulario.controls.tipoDelViaje.disable();
     }
   }
 
-  guardar(formValue: any): void {
-    this.viajeChanged.emit(formValue);
+  ngOnChange(changes: SimpleChanges): void {
+    if (changes.viaje?.currentValue) {
+       this.elFormulario.patchValue(changes.viaje.currentValue);
+    }
   }
 
+  guardar(formValue: Viaje): void {
+    this.viajeChanged.emit(formValue);
+    this.elFormulario.reset();
+  }
+
+  nuevoViaje(): void {
+    // this.viaje = new Viaje();
+    this.elFormulario.reset();
+    
+  }
+
+ 
 }
+

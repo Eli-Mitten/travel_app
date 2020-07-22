@@ -1,3 +1,3 @@
-<app-viaje-ngform [viaje]="viaje" [estados]="estados" [tiposDeViajes]="tiposDeViajes" (viajeChanged)="guardarEnListaViajes($event)"></app-viaje-ngform>
+<!-- <app-viaje-ngform [viaje]="viaje" [estados]="estados" [tiposDeViajes]="tiposDeViajes" (viajeChanged)="guardarEnListaViajes($event)"></app-viaje-ngform> -->
 <app-viaje-reactive-form [viaje]="viaje" [estados]="estados" [tiposDeViajes]="tiposDeViajes" (viajeChanged)="guardarEnListaViajes($event)"></app-viaje-reactive-form>
-<app-viaje-list [viajes]="viajes" [estados]="estados" [tiposDeViajes]="tiposDeViajes"></app-viaje-list>
+<app-viaje-list [viajes]="viajes" [estados]="estados" [tiposDeViajes]="tiposDeViajes" (viajeClicked)="editarViaje($event)"></app-viaje-list>

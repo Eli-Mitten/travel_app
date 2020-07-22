@@ -11,14 +11,14 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of viajes">
-            <td>{{item.id}}</td>
+            <td>{{item.id }}</td>
             <td>{{item.nombreDelViaje}}</td>
-            <td>{{tiposDeViajes[item.tipoDelViaje].value}}</td>
+            <td>{{tiposDeViajes[item.tipoDelViaje]?.value}}</td>
             <td>{{item.duracion}}</td>
             <td>{{item.destino}}</td>
             <td>{{item.plazas}}</td>
-            <td>{{estados[item.estado].value}}</td>
-            <td><button (click)="modificarViaje()">modificar</button></td>
+            <td>{{estados[item.estado]?.value}}</td>
+            <td><button (click)="modificarViaje(item)">modificar</button></td>
         </tr>
     </tbody>
 </table>

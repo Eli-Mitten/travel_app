@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IdValue } from './models/id-value';
 import { ViajeEstado, Viaje, TiposDeViajes } from './models/viaje';
-
+import { v4 as uuid } from 'uuid';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,15 +20,34 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      // this.viaje = this.cargarViaje(7);
-    }, 1000);
+      this.viajes.push(this.cargarViaje(7));
+      
+  }
+
+  editarViaje(v: Viaje): void{
+    if (v) {
+      this.viaje = v;
+    }
   }
 
   guardarEnListaViajes(v: Viaje): void {
-    this.viajes.push(v);
-    console.table(v);
-    console.log(this.viajes);
+    if (v){
+      if (v.id){
+        const idx = this.viajes.findIndex(x => x.id === v.id); // si vieaje id existe  busco y actualizo
+
+        if (idx >= 0) {
+          this.viajes[idx] = v;
+        }
+      }
+      else {
+        // uuid es una funcion
+        v.id = uuid();
+        console.log(v)
+        this.viajes.push(v);
+      }
+
+    }
+    
   }
 
   private cargarEstados(): IdValue[] {
@@ -48,8 +67,8 @@ export class AppComponent implements OnInit {
 
     result.push({ id: TiposDeViajes.Aventura, value: 'Aventura' });
     result.push({ id: TiposDeViajes.Crucero, value: 'Crucero'});
-    result.push({ id: ViajeEstado.Cerrado, value: 'Safari'});
-    result.push({ id: ViajeEstado.Postpuesto, value: 'Todo Incluido'});
+    result.push({ id: TiposDeViajes.Safari, value: 'Safari'});
+    result.push({ id: TiposDeViajes.TodoIncluido, value: 'Todo Incluido'});
 
     return result;
   }
@@ -58,7 +77,7 @@ export class AppComponent implements OnInit {
 
     // imaginad que llamamos a la bbdd y pedido el viaje con id = 7
     const viaje = new Viaje({
-      id: 7,
+      id: uuid(),
       nombreDelViaje: 'Crucero por las Islas Griegas',
       destino: ' Grecia',
       duracion: 7,

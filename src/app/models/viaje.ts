@@ -13,7 +13,7 @@ export enum TiposDeViajes {
 }
 
 export class Viaje {
-    id: number;
+    id: string;
     nombreDelViaje: string; // Input
     tipoDelViaje: string; // select
     duracion: number; // input
@@ -23,7 +23,7 @@ export class Viaje {
     estado: ViajeEstado; // select
 
     constructor(item?: any) {
-        this.id = new Date().getMilliseconds();
+        this.id = item?.id || '' ;
         this.nombreDelViaje = item?.nombreDelViaje || '';
         this.tipoDelViaje = item?.tipoDelViaje || '';
         this.duracion = item?.duracion || 0;

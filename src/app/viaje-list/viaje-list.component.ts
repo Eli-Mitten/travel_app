@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChange, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Viaje } from '../models/viaje';
 import { IdValue } from '../models/id-value';
 
@@ -9,17 +9,34 @@ import { IdValue } from '../models/id-value';
 })
 export class ViajeListComponent implements OnInit {
 
+  // tslint:disable-next-line: variable-name
+  // _viajes: Viaje;
+  // @Input() set viajes(value: Viaje) {
+  //   if (value) {
+  //     this.viajes = value;
+  //     console.log('entra por aquí');
+
+  //   }
+  //   this._viajes = value;
+  //   console.log('entra por aquí');
+  // }
+
   @Input() viajes: Viaje[] = [];
   @Input() estados: IdValue[] = [];
   @Input() tiposDeViajes: IdValue[] = [];
+
+  @Output() viajeClicked = new EventEmitter<Viaje>(false);
 
   constructor() { }
 
   ngOnInit(): void {
   }
+  ngOnChange(): void {
 
-  modificarViaje() {
-    
+  }
+
+  modificarViaje(item: Viaje): void {
+    this.viajeClicked.emit(item);
   }
 
 }
